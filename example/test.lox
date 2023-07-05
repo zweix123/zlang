@@ -1,0 +1,181 @@
+// class Doughnut {
+//   cook() {
+//     print "Dunk in the fryer.";
+//   }
+// }
+
+// class Cruller < Doughnut {
+//   finish() {
+//     print "Glaze with icing.";
+//   }
+// }
+
+// var t = Cruller();
+// t.finish();
+
+// class CoffeeMaker {
+//   init(coffee) {
+//     this.coffee = coffee;
+//   }
+
+//   brew() {
+//     print "@@@Enjoy your cup of " + this.coffee;
+
+//     // No reusing the grounds!
+//     this.coffee = nil;
+//   }
+// }
+
+// var maker = CoffeeMaker("coffee and chicory");
+// maker.brew();
+
+// class Scone {
+//   topping(first, second) {
+//     print "scone with " + first + " and " + second;
+//   }
+// }
+
+// var scone = Scone();
+// scone.topping("berries", "cream");
+
+// class Brunch {
+//   bacon() {}
+//   eggs() {}
+// }
+
+// class Pair {}
+
+// var pair = Pair();
+// pair.first = 1;
+// pair.second = 2;
+// print pair.first + pair.second; // 3.
+
+// class myClass{}
+// print myClass;
+// print myClass();
+
+// fun outer() {
+//   var x = "outside";
+//   fun inner() {
+//     print x;
+//   }
+//   inner();
+// }
+// outer();
+// fun outer() {
+//   var x = "v";
+//   fun middle() {
+
+    // fun inner() {
+    //   print x;
+    // }
+
+    // print "create inner closure";
+    // return inner;
+    
+//   }
+
+//   print "return from outer";
+//   return middle;
+// }
+// var mid = outer();
+// var in = mid();
+// in();
+// return from outer
+// create inner closure
+// value
+
+// fun outer() {
+//   var x = "outside";
+//   fun inner() {
+//     print x;
+//   }
+
+//   return inner;
+// }
+
+// var closure = outer();
+// closure();
+
+// fun outer() {
+//   var x = "outside";
+//   fun inner() {
+//     print x;
+//   }
+//   inner();
+// }
+// outer();
+
+// fun outer() {
+//   var a = 1;
+//   var b = 2;
+//   fun middle() {
+//     var c = 3;
+//     var d = 4;
+//     fun inner() {
+//       print a + c + b + d;
+//     }
+//   }
+// }
+
+// var a = !(5 - 4 > 3 * 2 == ! nil);
+// print show(a, true, nil, 42, "Hello World");
+
+// fun fib(n) {
+//   if (n < 2) return n;
+//   return fib(n - 2) + fib(n - 1);
+// }
+// var start = clock();
+// var f = fib(29);
+// // var f = fib(5);
+// print clock() -start;
+
+// fun gcd(a, b) {
+//     if (b == 0) {
+//         return a;
+//     } else {
+//         var t = a;
+//         while (t - b >= 0) {
+//             t = t - b;
+//         }
+//         return gcd(b, t);
+//     }
+// }
+// print gcd(25, 35);
+
+// 跟踪调用栈
+// fun a() { b(); }
+// fun b() { c(); }
+// fun c() {
+//   c("too", "many");
+// }
+// a();
+
+// for (var a = 1; a <= 10; a = a + 1) {
+//     print a;
+// }
+
+// print true and "ok";
+// print false or "ok";
+
+// if (false) {
+//     print 1;
+// } else {
+//     print 2;
+// }
+
+// var a = 1;
+// print a;
+// {
+//     var a = 2;
+//     print a;
+// }
+
+// var breakfast = "beignets";
+// var beverage = "cafe au lait";
+// breakfast = "beignets with " + beverage;
+// print breakfast;
+
+// print !(5 - 4 > 3 * 2 == ! nil);
+// print "1" + "2";
+// print "1" == "1";

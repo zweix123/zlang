@@ -1,0 +1,119 @@
+# Manual: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+# YAML格式
+
+# 禁止格式化块
+# // clang-format off
+# // clang-format on
+
+# 下面标记用来分割不同语言, 当然这里只有一个语言
+---
+BasedOnStyle: LLVM
+Language: Cpp
+
+IndentWidth: 4 # 缩进列数
+TabWidth: 4 # 一个tab的大小
+
+ColumnLimit: 80 # 每行最长长度
+ContinuationIndentWidth: 4 # 同一标签的换行的格式化缩进
+
+Standard: Latest
+UseCRLF: false # 弃用
+
+# UseTab: Never  # 格式化对行前空格不用Tab填充
+
+AlignConsecutiveMacros: true # 对连续、跨行、跨注释的宏定义、声明、赋值对齐且右侧对齐
+AlignConsecutiveBitFields: true # 位域对齐
+AlignEscapedNewlines: Left # 换行符`\`的对齐
+AlignOperands: true # 对齐表达式操作数
+AlignTrailingComments: true # 注释默认对齐(弃用, 但仍然生效)
+
+AllowAllArgumentsOnNextLine: true # 函数调用、大括号初始化对齐
+AllowAllConstructorInitializersOnNextLine: true # 弃用
+AllowAllParametersOfDeclarationOnNextLine: true # 函数声明对齐
+AllowShortBlocksOnASingleLine: Always # 将短块放在一行
+AllowShortCaseLabelsOnASingleLine: true # 将短case放在一行
+AllowShortEnumsOnASingleLine: true # 短枚举放在一行
+AllowShortFunctionsOnASingleLine: InlineOnly # 短方法放一行，短函数不放
+AllowShortIfStatementsOnASingleLine: Always # 短分支是否放一行, 当前参数无效
+AllowShortLambdasOnASingleLine: Inline # 如果lambda是参数则放在一行，否则则不
+AllowShortLoopsOnASingleLine: true # while(true)且短放在一行
+AlwaysBreakBeforeMultilineStrings: false # 多字符串拼接赋值等号不换行
+AlwaysBreakTemplateDeclarations: Yes # 模板声明类型部分尖括号和函数签名部分必须换行
+
+BinPackArguments: true # 函数调用参数长度自适应
+BinPackParameters: false # 函数声明参数要么全在一行，要么分别一行
+# BreakBeforeBraces: Attach  # 函数、类、方法等等后大括号不换行, LLVM默认
+
+AlignAfterOpenBracket: AlwaysBreak # 和缩进有关, 不确定具体做作用
+
+BreakBeforeBinaryOperators: NonAssignment # 表达式换行，符号在头
+BreakBeforeConceptDeclarations: true # 模板声明类型部分尖括号和函数签名部分必须换行, 好像和上面模板相关的重复
+BreakBeforeTernaryOperators: true # 长三元运算符相关
+BreakConstructorInitializers: BeforeComma # 继承相关
+BreakInheritanceList: BeforeComma # 同上
+BreakStringLiterals: false # 多个字符串自动拼接
+
+CompactNamespaces: false # 名称空间换行
+ConstructorInitializerAllOnOneLineOrOnePerLine: true # 弃用
+ConstructorInitializerIndentWidth: 4 # 用于缩进构造函数初始化列表和继承列表的字符数
+Cpp11BracedListStyle: true # 大括号初始化器参数和括号之间有空格
+
+EmptyLineBeforeAccessModifier: Always # private、public等等这种的前面添加空行
+
+FixNamespaceComments: true # 自动添加命名空间相关注释
+
+IncludeBlocks: Regroup # include格式化，但无效
+
+IndentCaseLabels: true # switch 中 case 要缩进
+IndentExternBlock: Indent # extern块 要缩进
+IndentGotoLabels: true # labal 要 缩进
+IndentPPDirectives: None # 对于宏, 不会因为分支而缩进
+IndentWrappedFunctionNames: false # 对于长类型的换行, 不缩进
+# InsertTrailingCommas: Wrapped  # 多参数末尾添加逗号，但无效
+
+KeepEmptyLinesAtTheStartOfBlocks: false # 不要 每个块内容的第一行是空行
+
+MaxEmptyLinesToKeep: 1 # 最大空行保留
+
+NamespaceIndentation: Inner # 名称空间缩进
+
+PointerAlignment: Left # 指针*对齐
+# ReferenceAlignment     # 取址&对齐  LLVM默认
+
+ReflowComments: true # 整理注释
+
+# RequiresClausePosition: OwnLine  # requires字句位置
+# IndentPragmas: false
+IndentRequires: true # requires字句缩进相关
+
+SeparateDefinitionBlocks: Always # 块间要有空行 -
+
+
+ShortNamespaceLines: 5 # 不懂
+
+SortIncludes: false # 禁用include排序
+SortUsingDeclarations: false # 禁用排序using
+
+# 各种空格
+SpaceAfterCStyleCast: false # 强制类型转换
+SpaceAfterLogicalNot: false # !运算符
+SpaceAfterTemplateKeyword: false # <>
+SpaceBeforeAssignmentOperators: true # 左值和=
+# SpaceBeforeCaseColon  # case相关的空行, 使用默认
+SpaceBeforeCpp11BracedList: false # 大括号初始化器和类型
+SpaceBeforeCtorInitializerColon: true # 构造函数的:
+SpaceBeforeInheritanceColon: true # 继承的:
+SpaceBeforeParens: ControlStatements # 控制流中的左括号前的空格
+SpaceBeforeRangeBasedForLoopColon: true # for后的空格
+SpaceBeforeSquareBrackets: false # 数组名和[之前没有空格
+SpaceInEmptyBlock: false # 空块{}没有空格
+SpaceInEmptyParentheses: false # 空参数列表()没有空格
+SpacesBeforeTrailingComments: 1 # 注释\\和内容之间的空格个数
+SpacesInAngles: false # <>之间没空格
+SpacesInCStyleCastParentheses: false # 强制类型转换的()没有空格
+SpacesInConditionalStatement: false # 分支的条件表达式周围没空格
+SpacesInContainerLiterals: true # 初始化有空格
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+---
