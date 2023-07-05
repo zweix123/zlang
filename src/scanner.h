@@ -47,7 +47,10 @@ typedef enum {
     TOKEN_WHILE,  // token_while,
     //
     TOKEN_ERROR, // token_error,
-    TOKEN_EOF    // token_eof
+    TOKEN_EOF,   // token_eof
+
+    TOKEN_LEFT_BRACKET,
+    TOKEN_RIGHT_BRACKET,
 } TokenType;
 
 typedef struct {

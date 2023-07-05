@@ -15,6 +15,7 @@
 #define IS_CLASS(value)        isObjType(value, OBJ_CLASS)
 #define IS_INSTANCE(value)     isObjType(value, OBJ_INSTANCE)
 #define IS_BOUND_METHOD(value) isObjType(value, OBJ_BOUND_METHOD)
+#define IS_LIST(value)         isObjType(value, OBJ_LIST)
 // Value -> 具体的Object
 #define AS_FUNCTION(value)     ((ObjFunction*)AS_OBJ(value))
 #define AS_NATIVE(value)       (((ObjNative*)AS_OBJ(value))->function)
@@ -24,6 +25,7 @@
 #define AS_CLASS(value)        ((ObjClass*)AS_OBJ(value))
 #define AS_INSTANCE(value)     ((ObjInstance*)AS_OBJ(value))
 #define AS_BOUND_METHOD(value) ((ObjBoundMethod*)AS_OBJ(value))
+#define AS_LIST(value)         ((ObjList*)AS_OBJ(value))
 
 // #define AS_CSTRING(value)  (((ObjString*)AS_OBJ(value))->chars)
 
@@ -36,6 +38,8 @@ typedef enum {
     OBJ_CLASS,
     OBJ_INSTANCE,
     OBJ_BOUND_METHOD,
+
+    OBJ_LIST,
 } ObjType;
 
 struct Obj {
@@ -120,5 +124,21 @@ void printObject(Value value);
 static bool isObjType(Value value, ObjType type) {
     return IS_OBJ(value) && AS_OBJ(value)->type == type;
 }
+
+//
+
+typedef struct {
+    Obj obj;
+    int count;
+    int capacity;
+    Value* items;
+} ObjList;
+
+ObjList* newList();
+void appendToList(ObjList* list, Value value);
+void storeToList(ObjList* list, int index, Value value);
+Value indexFromList(ObjList* list, int index);
+void deleteFromList(ObjList* list, int index);
+bool isValidListIndex(ObjList* list, int index);
 
 #endif

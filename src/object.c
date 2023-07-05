@@ -158,6 +158,18 @@ void printObjInstance(ObjInstance* instance) {
     printf("%s instance", instance->klass->name->chars);
 }
 
+void printObjBoundMethod(ObjBoundMethod* boundMethod) {
+    printFunction(boundMethod->method->function);
+}
+
+void printObjList(ObjList* list) {
+    printf("[");
+    for (int i = 0; i < list->count; ++i) {
+        printValue(list->items[i]);
+        printf(i == list->count - 1 ? "]" : ", ");
+    }
+}
+
 void printObject(Value value) {
     switch (OBJ_TYPE(value)) {
         case OBJ_FUNCTION: printFunction(AS_FUNCTION(value)); break;
@@ -168,8 +180,53 @@ void printObject(Value value) {
         case OBJ_CLASS: printObjClass(AS_CLASS(value)); break;
         case OBJ_INSTANCE: printObjInstance(AS_INSTANCE(value)); break;
         case OBJ_BOUND_METHOD:
-            printFunction(AS_BOUND_METHOD(value)->method->function);
+            printObjBoundMethod(AS_BOUND_METHOD(value));
             break;
+        case OBJ_LIST: printObjList(AS_LIST(value));
         default: break;
     }
+}
+
+//
+
+ObjList* newList() {
+    ObjList* list = ALLOCATE_OBJ(ObjList, OBJ_LIST);
+    list->items = NULL;
+    list->count = 0;
+    list->capacity = 0;
+    return list;
+}
+
+void appendToList(ObjList* list, Value value) {
+    // Grow the array if necessary
+    if (list->capacity < list->count + 1) {
+        int oldCapacity = list->capacity;
+        list->capacity = GROW_CAPACITY(oldCapacity);
+        list->items =
+            GROW_ARRAY(Value, list->items, oldCapacity, list->capacity);
+    }
+    list->items[list->count] = value;
+    list->count++;
+    return;
+}
+
+void storeToList(ObjList* list, int index, Value value) {
+    list->items[index] = value;
+}
+
+Value indexFromList(ObjList* list, int index) {
+    return list->items[index];
+}
+
+void deleteFromList(ObjList* list, int index) {
+    for (int i = index; i < list->count - 1; i++) {
+        list->items[i] = list->items[i + 1];
+    }
+    list->items[list->count - 1] = NIL_VAL;
+    list->count--;
+}
+
+bool isValidListIndex(ObjList* list, int index) {
+    if (index < 0 || index > list->count - 1) { return false; }
+    return true;
 }

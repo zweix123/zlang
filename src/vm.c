@@ -489,6 +489,80 @@ static InterpretResult run() {
                 }
                 break;
             }
+
+            case OP_BUILD_LIST: {
+                // Stack before: [item1, item2, ..., itemN] and after: [list]
+                ObjList* list = newList();
+                uint8_t itemCount = READ_BYTE();
+
+                // Add items to list
+                // So list isn't sweeped by GC in appendToList
+                push(OBJ_VAL(list));
+                for (int i = itemCount; i > 0; i--) {
+                    appendToList(list, peek(i));
+                }
+                pop();
+
+                // Pop items from stack
+                while (itemCount-- > 0) { pop(); }
+
+                push(OBJ_VAL(list));
+                break;
+            }
+            case OP_INDEX_SUBSCR: {
+                // Stack before: [list, index] and after: [index(list, index)]
+                Value index = pop();
+                Value list = pop();
+                Value result;
+
+                if (!IS_LIST(list)) {
+                    runtimeError("Invalid type to index into.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                ObjList* list_ = AS_LIST(list);
+
+                if (!IS_NUMBER(index)) {
+                    runtimeError("List index is not a number.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                int index_ = AS_NUMBER(index);
+
+                if (!isValidListIndex(list_, index_)) {
+                    runtimeError("List index out of range.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+
+                result = indexFromList(list_, index_);
+                push(result);
+                break;
+            }
+            case OP_STORE_SUBSCR: {
+                // Stack before: [list, index, item] and after: [item]
+                Value item = pop();
+                Value index = pop();
+                Value list = pop();
+
+                if (!IS_LIST(list)) {
+                    runtimeError("Cannot store value in a non-list.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                ObjList* list_ = AS_LIST(list);
+
+                if (!IS_NUMBER(index)) {
+                    runtimeError("List index is not a number.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                int index_ = AS_NUMBER(index);
+
+                if (!isValidListIndex(list_, index_)) {
+                    runtimeError("Invalid list index.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+
+                storeToList(list_, index_, item);
+                push(item);
+                break;
+            }
         }
     }
 #undef READ_BYTE

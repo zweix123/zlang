@@ -30,6 +30,7 @@ typedef enum {
     PREC_FACTOR,     // * /
     PREC_UNARY,      // ! -
     PREC_CALL,       // . ()
+    PREC_SUBSCRIPT,  // []
     PREC_PRIMARY
 } Precedence;
 
@@ -565,6 +566,46 @@ static void or_(bool canAssign) {
 
 // ===
 
+static void list(bool canAssign) {
+    int itemCount = 0;
+    if (!check(TOKEN_RIGHT_BRACKET)) {
+        do {
+            if (check(TOKEN_RIGHT_BRACKET)) {
+                // Trailing comma case
+                break;
+            }
+
+            parsePrecedence(PREC_OR);
+
+            if (itemCount == UINT8_COUNT) {
+                error("Cannot have more than 256 items in a list literal.");
+            }
+            itemCount++;
+        } while (match(TOKEN_COMMA));
+    }
+
+    consume(TOKEN_RIGHT_BRACKET, "Expect ']' after list literal.");
+
+    emitByte(OP_BUILD_LIST);
+    emitByte(itemCount);
+    return;
+}
+
+static void subscript(bool canAssign) {
+    parsePrecedence(PREC_OR);
+    consume(TOKEN_RIGHT_BRACKET, "Expect ']' after index.");
+
+    if (canAssign && match(TOKEN_EQUAL)) {
+        expression();
+        emitByte(OP_STORE_SUBSCR);
+    } else {
+        emitByte(OP_INDEX_SUBSCR);
+    }
+    return;
+}
+
+// ===
+
 ParseRule rules[] = {
     [TOKEN_LEFT_PAREN] = {grouping, call, PREC_CALL},        // left_paren
     [TOKEN_RIGHT_PAREN] = {NULL, NULL, PREC_NONE},           // right_paren
@@ -605,7 +646,13 @@ ParseRule rules[] = {
     [TOKEN_VAR] = {NULL, NULL, PREC_NONE},                   // var
     [TOKEN_WHILE] = {NULL, NULL, PREC_NONE},                 // while
     [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},                 // error
-    [TOKEN_EOF] = {NULL, NULL, PREC_NONE}};                  // eof
+    [TOKEN_EOF] = {NULL, NULL, PREC_NONE},                   // eof
+
+    [TOKEN_LEFT_BRACKET] =
+        {list, subscript, PREC_SUBSCRIPT},           // TOKEN_LEFT_BRACKET
+    [TOKEN_RIGHT_BRACKET] = {NULL, NULL, PREC_NONE}, // TOKEN_RIGHT_BRACKET
+
+};
 
 static ParseRule* getRule(TokenType type) {
     return &rules[type];

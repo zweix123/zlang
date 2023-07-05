@@ -35,8 +35,43 @@ void defineNative(const char* name, NativeFn function) {
     pop();
 }
 
+//
+
+static Value appendNative(int argCount, Value* args) {
+    // Append a value to the end of a list increasing the list's length by 1
+    if (argCount != 2 || !IS_LIST(args[0])) {
+        // Handle error
+    }
+    ObjList* list = AS_LIST(args[0]);
+    Value item = args[1];
+    appendToList(list, item);
+    return NIL_VAL;
+}
+
+static Value deleteNative(int argCount, Value* args) {
+    // Delete an item from a list at the given index.
+    if (argCount != 2 || !IS_LIST(args[0]) || !IS_NUMBER(args[1])) {
+        // Handle error
+    }
+
+    ObjList* list = AS_LIST(args[0]);
+    int index = AS_NUMBER(args[1]);
+
+    if (!isValidListIndex(list, index)) {
+        // Handle error
+    }
+
+    deleteFromList(list, index);
+    return NIL_VAL;
+}
+
+//
+
 void nativeRegister() {
     defineNative("clock", clockNative);
     defineNative("show", showNative);
     defineNative("exit", exitNative);
+
+    defineNative("append", appendNative);
+    defineNative("delete", deleteNative);
 }

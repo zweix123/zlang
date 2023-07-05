@@ -44,7 +44,11 @@ typedef enum {
                // 属性名在常量表的索引和传递给方法的参数数量
     OP_INHERIT,   // 继承
     OP_GET_SUPER, // 超类访问
-} OpCode;         // operation code
+
+    OP_BUILD_LIST,
+    OP_INDEX_SUBSCR,
+    OP_STORE_SUBSCR,
+} OpCode; // operation code
 
 // 并没有<=、>=、!=
 //  因为 !(a < b) -> (a >= b)
