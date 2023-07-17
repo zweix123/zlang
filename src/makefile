@@ -6,13 +6,12 @@ TEST_FILE = test.lox
 CFLAGS = -Wall -Werror -O -fno-omit-frame-pointer -ggdb -gdwarf-2 -Wno-unused-function
 
 BUILD := build
-# BUILD := .
 $(shell mkdir -p $(BUILD))
 
 SRCS := $(wildcard *.c)
 DEPS := $(patsubst %.c,$(BUILD)/%.d,$(SRCS))
 OBJS := $(patsubst %.c,$(BUILD)/%.o,$(SRCS))
-EXEC = main.exe
+EXEC = main.exe  # .exe是为兼容win
 
 .PHONY: all clean run test gdb
 

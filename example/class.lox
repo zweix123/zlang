@@ -1,0 +1,14 @@
+class Animal {
+    eat() {
+        print("The animal is eating.");
+    }
+}
+
+class Dog < Animal {
+    eat() {
+        print("Dog is eating.");
+    }
+}
+
+Animal().eat();
+Dog().eat();

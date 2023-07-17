@@ -175,7 +175,3 @@
 // var beverage = "cafe au lait";
 // breakfast = "beignets with " + beverage;
 // print breakfast;
-
-// print !(5 - 4 > 3 * 2 == ! nil);
-// print "1" + "2";
-// print "1" == "1";
