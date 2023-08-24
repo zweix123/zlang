@@ -134,7 +134,7 @@ void printFunction(ObjFunction* function) {
     printf("<fn %s>", function->name->chars);
 }
 
-void printNative(void*) {
+void printNative(void* value) {
     printf("<native fn>");
 }
 
@@ -146,7 +146,7 @@ void printObjClosure(ObjClosure* closure) {
     printFunction(closure->function);
 }
 
-void printObjUpvalue(void*) {
+void printObjUpvalue(void* value) {
     printf("upvalue");
 }
 
