@@ -1,7 +1,7 @@
 # zlang
 
 + Reference
-  + 脱胎于[lox](https://github.com/munificent/craftinginterpreters)
+  + 脱胎于[lox](https://github.com/munificent/craftinginterpreters)（学习过程中的[实现](https://github.com/zweix123/zlox)）
   + 动态数组内置类型借鉴[lox list](https://calebschoepp.com/blog/2020/adding-a-list-data-type-to-lox/)
 
 ## Quickly Start
